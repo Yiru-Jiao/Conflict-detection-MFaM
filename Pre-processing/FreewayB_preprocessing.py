@@ -10,11 +10,14 @@ import glob
 from tqdm import tqdm
 
 # Define the directory of the project
-parent_dir = os.path.abspath('../..')
-path_rawdata = parent_dir + '/localdata/rawdata/'
-path_inputdata = parent_dir + '/localdata/inputdata/'
-path_outputdata = parent_dir + '/localdata/outputdata/'
+path_rawdata = './localdata/rawdata/'
+path_inputdata = './localdata/inputdata/'
+path_outputdata = './localdata/outputdata/'
 
+
+print(os.path.abspath(path_rawdata))
+print(os.path.abspath(path_inputdata))
+print(os.path.abspath(path_outputdata))
 
 # Preprocessing
 data_files = glob.glob(path_rawdata + '*.csv')
