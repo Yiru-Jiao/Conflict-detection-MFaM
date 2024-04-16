@@ -3,14 +3,13 @@ This file is used to determine conflicts and sample data for spacing inferences.
 '''
 
 import sys
-import os
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
 
 # Define the directory of the project
-parent_dir = r'U:/Vehicle Coordination Yiru'
+data_path = './Conflict-detection-MFaM/localdata/'
 
 
 # Define functions
@@ -70,39 +69,12 @@ def Grouping(samples, vehnum):
     return samples
 
 
-# # highD (more free-following)
-
-# ## Load data
-# data_all = []
-# for loc in tqdm(['highD_0'+str(i) for i in range(6,0,-1)]):
-#     data = pd.read_hdf(parent_dir + '/OutputData/ADAS/FCW/data/highD/'+loc+'.h5', key='data')
-#     data_all.append(data)
-# data_all = pd.concat(data_all).reset_index(drop=True)
-
-# data_all['s'] = abs(data_all['pre_position'] - data_all['position']) - data_all['pre_length'] # net distance
-# data_all['v'] = data_all['speed'] - data_all['pre_speed']
-# samples_highD = data_all[(data_all['s']>0)&(data_all['v']>0)].copy()
-# data_all = []
-
-# ## Determine conflicts
-# samples_highD['ttc'] = samples_highD['s']/samples_highD['v']
-# print('The percentage of TTCs that are inf: ', np.isinf(samples_highD['ttc']).sum()/len(samples_highD))
-# samples_highD = determine_conflicts(samples_highD.copy())
-# samples_highD.to_hdf(parent_dir + '/OutputData/ADAS/FCW/samples/samples_highD.h5', key='data', mode='w')
-
-# ## Sample data
-# samples = Grouping(samples_highD, 15000)
-# samples = samples.sort_values(by='v').reset_index(drop=True)
-# print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
-# samples[['s','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(parent_dir + '/OutputData/ADAS/FCW/samples/samples_toinfer_highD.h5', key='samples')
-
-
-# FreewayB (more congested)
+# FreewayB (synthetic conflicts)
 
 ## Load data
 data_all = []
 for loc in tqdm(['FreewayB_0'+str(i) for i in range(7,0,-1)]):
-    data = pd.read_hdf(parent_dir + '/OutputData/ADAS/FCW/data/FreewayB/'+loc+'.h5', key='data')
+    data = pd.read_hdf(data_path + 'outputdata/'+loc+'.h5', key='data')
     data_all.append(data)
 data_all = pd.concat(data_all).reset_index(drop=True)
 
@@ -115,10 +87,29 @@ data_all = []
 samples_FreewayB['ttc'] = samples_FreewayB['s']/samples_FreewayB['v']
 print('The percentage of TTCs that are inf: ', np.isinf(samples_FreewayB['ttc']).sum()/len(samples_FreewayB))
 samples_FreewayB = determine_conflicts(samples_FreewayB.copy())
-samples_FreewayB.to_hdf(parent_dir + '/OutputData/ADAS/FCW/samples/samples_FreewayB.h5', key='data', mode='w')
+samples_FreewayB.to_hdf(data_path + 'samples/samples_FreewayB.h5', key='data')
 
 ## Sample data
 samples = Grouping(samples_FreewayB, 7500)
 samples = samples.sort_values(by='v').reset_index(drop=True)
 print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
-samples[['s','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(parent_dir + '/OutputData/ADAS/FCW/samples/samples_toinfer_FreewayB.h5', key='samples')
+samples[['s','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(data_path + 'samples/samples_toinfer_FreewayB.h5', key='samples')
+
+
+# 100Car (real conflicts)
+
+## Load data
+data = pd.read_hdf(data_path + 'outputdata/HundredCar_CFData.h5', key='data')
+samples_100Car = data[(data['s']>0)&(data['v']>0)].copy()
+
+## Conflicts are empirical
+samples_100Car['conflict'] = samples_100Car['conflict'].astype(bool)
+samples_100Car['ttc'] = samples_100Car['s']/samples_100Car['v']
+print('The percentage of TTCs that are inf: ', np.isinf(samples_100Car['ttc']).sum()/len(samples_100Car))
+samples_100Car.to_hdf(data_path + 'samples/samples_100Car.h5', key='data')
+
+## Sample data
+samples = Grouping(samples_100Car, 800)
+samples = samples.sort_values(by='v').reset_index(drop=True)
+print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
+samples[['s','round_v','conflict']].to_hdf(data_path + 'samples/samples_toinfer_100Car.h5', key='samples')
