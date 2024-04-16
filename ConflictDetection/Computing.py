@@ -76,7 +76,7 @@ def spacing_inference_sc(samples_toinfer, roundvs, loc, conflict_type):
         else:
             kde_sc = stats.gaussian_kde(sample['s'].values)
             prob_sc[roundv] = kde_sc
-            smax_list.append(sample['s'].max())
+            smax_list.append(np.percentile(sample['s'].values, 95))
             c_list.append(len(sample))
 
     idx_empty = np.array(idx_empty)
@@ -169,6 +169,7 @@ samples_100Car, samples_toinfer_100Car, roundvs_100Car = load_data('100Car')
 print('Inferencing spacing...')
 prob_s_100Car, len_s = spacing_inference_s(samples_toinfer_100Car, roundvs_100Car, '100Car')
 prob_sc_100Car, smax_c_100Car, c_100Car = spacing_inference_sc(samples_toinfer_100Car, roundvs_100Car, '100Car', 'conflict')
+c_100Car = c_100Car/len_s
 
 ## Compute pma and pfa
 print('Computing thresholds...')
