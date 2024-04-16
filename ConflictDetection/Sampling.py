@@ -7,9 +7,8 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-
 # Define the directory of the project
-data_path = './Conflict-detection-MFaM/localdata/'
+data_path = './localdata/'
 
 
 # Define functions
@@ -93,7 +92,7 @@ samples_FreewayB.to_hdf(data_path + 'samples/samples_FreewayB.h5', key='data')
 samples = Grouping(samples_FreewayB, 7500)
 samples = samples.sort_values(by='v').reset_index(drop=True)
 print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
-samples[['s','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(data_path + 'samples/samples_toinfer_FreewayB.h5', key='samples')
+samples[['s','v','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(data_path + 'samples/samples_toinfer_FreewayB.h5', key='samples')
 
 
 # 100Car (real conflicts)
@@ -112,4 +111,4 @@ samples_100Car.to_hdf(data_path + 'samples/samples_100Car.h5', key='data')
 samples = Grouping(samples_100Car, 800)
 samples = samples.sort_values(by='v').reset_index(drop=True)
 print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
-samples[['s','round_v','conflict']].to_hdf(data_path + 'samples/samples_toinfer_100Car.h5', key='samples')
+samples[['s','v','round_v','conflict']].to_hdf(data_path + 'samples/samples_toinfer_100Car.h5', key='samples')

@@ -12,7 +12,7 @@ from scipy import optimize
 from scipy import stats
 
 # Define the directory of the project
-data_path = './Conflict-detection-MFaM/localdata/'
+data_path = './localdata/'
 
 
 # Define functions
@@ -158,7 +158,7 @@ for ctype, prob_sc, smax_c, c in zip(ctype_list, prob_sc_list, smax_c_list, c_li
     parameters['ctype'] = ctype
     parameters_FreewayB.append(parameters)
 parameters_FreewayB = pd.concat(parameters_FreewayB).reset_index(drop=True)
-parameters_FreewayB.to_csv(data_path + 'parameters_FreewayB.csv', index=False)
+parameters_FreewayB.to_csv(data_path + 'spacing/parameters_FreewayB.csv', index=False)
 
 
 # 100Car
@@ -173,4 +173,4 @@ prob_sc_100Car, smax_c_100Car, c_100Car = spacing_inference_sc(samples_toinfer_1
 ## Compute pma and pfa
 print('Computing thresholds...')
 parameters_100Car = compute_thresholds(roundvs_100Car, prob_s_100Car, prob_sc_100Car, smax_c_100Car, c_100Car, '100Car')
-parameters_100Car.to_csv(data_path + 'parameters_100Car.csv', index=False)
+parameters_100Car.to_csv(data_path + 'spacing/parameters_100Car.csv', index=False)

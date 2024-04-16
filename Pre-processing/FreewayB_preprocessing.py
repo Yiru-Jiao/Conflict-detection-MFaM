@@ -3,7 +3,6 @@ This file is used to preprocess the Freeway B dataset.
 '''
 
 # Import libraries
-import os
 import pandas as pd
 import numpy as np
 import glob
@@ -14,10 +13,6 @@ path_rawdata = './localdata/rawdata/'
 path_inputdata = './localdata/inputdata/'
 path_outputdata = './localdata/outputdata/'
 
-
-print(os.path.abspath(path_rawdata))
-print(os.path.abspath(path_inputdata))
-print(os.path.abspath(path_outputdata))
 
 # Preprocessing
 data_files = glob.glob(path_rawdata + '*.csv')

@@ -6,9 +6,9 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-path_output = './Conflict-detection-MFaM/localdata/outputdata/'
-path_processed = '../Process_100Car/ProcessedData/'
-path_cleaned = '../Process_100Car/CleanedData/'
+path_output = './localdata/outputdata/'
+path_processed = '../../Process_100Car/ProcessedData/'
+path_cleaned = '../../Process_100Car/CleanedData/'
 
 manualSeed = 131
 
