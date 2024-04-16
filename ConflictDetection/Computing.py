@@ -12,7 +12,7 @@ from scipy import optimize
 from scipy import stats
 
 # Define the directory of the project
-parent_dir = r'U:/Vehicle Coordination Yiru/OutputData/ADAS/FCW/'
+data_path = './Conflict-detection-MFaM/localdata/'
 
 
 # Define functions
@@ -36,12 +36,11 @@ def round_speed(samples, roundvs):
 
 
 def load_data(loc):
-    samples = pd.read_hdf(parent_dir + '/samples/samples_'+loc+'.h5', key='data')
+    samples = pd.read_hdf(data_path + '/samples/samples_'+loc+'.h5', key='data')
     samples = samples.reset_index(drop=True)
-    samples_toinfer = pd.read_hdf(parent_dir + '/samples/samples_toinfer_'+loc+'.h5', key='samples')
+    samples_toinfer = pd.read_hdf(data_path + '/samples/samples_toinfer_'+loc+'.h5', key='samples')
     roundvs = samples_toinfer['round_v'].unique()
     samples = round_speed(samples, roundvs)
-
     return samples, samples_toinfer, roundvs
 
 
@@ -134,45 +133,23 @@ def compute_thresholds(roundvs, prob_s, prob_sc, smax_list, c_list, loc):
     return parameters.reset_index()
 
 
-# Load data
-print('Loading data...')
-samples_highD, samples_toinfer_highD, roundvs_highD = load_data('highD')
-samples_highD.to_hdf(parent_dir + '/samples/samples_highD.h5', key='data')
+# Freeway B
+## Load data
+print('Loading FreewayB data...')
 samples_FreewayB, samples_toinfer_FreewayB, roundvs_FreewayB = load_data('FreewayB')
-samples_FreewayB.to_hdf(parent_dir + '/samples/samples_FreewayB.h5', key='data')
 
-
-# Create dictionaries for spacing inference
+## Create dictionaries for spacing inference
 print('Inferencing spacing...')
-# prob_s_highD, len_s = spacing_inference_s(samples_toinfer_highD, roundvs_highD, 'highD')
-# prob_sc1_highD, smax_c1_highD, c1_highD = spacing_inference_sc(samples_toinfer_highD, roundvs_highD, 'highD', 'conflict_1')
-# prob_sc2_highD, smax_c2_highD, c2_highD = spacing_inference_sc(samples_toinfer_highD, roundvs_highD, 'highD', 'conflict_2')
-# prob_sc3_highD, smax_c3_highD, c3_highD = spacing_inference_sc(samples_toinfer_highD, roundvs_highD, 'highD', 'conflict_3')
-# c1_highD, c2_highD, c3_highD = c1_highD/len_s, c2_highD/len_s, c3_highD/len_s
-
 prob_s_FreewayB, len_s = spacing_inference_s(samples_toinfer_FreewayB, roundvs_FreewayB, 'FreewayB')
 prob_sc1_FreewayB, smax_c1_FreewayB, c1_FreewayB = spacing_inference_sc(samples_toinfer_FreewayB, roundvs_FreewayB, 'FreewayB', 'conflict_1')
 prob_sc2_FreewayB, smax_c2_FreewayB, c2_FreewayB = spacing_inference_sc(samples_toinfer_FreewayB, roundvs_FreewayB, 'FreewayB', 'conflict_2')
 prob_sc3_FreewayB, smax_c3_FreewayB, c3_FreewayB = spacing_inference_sc(samples_toinfer_FreewayB, roundvs_FreewayB, 'FreewayB', 'conflict_3')
 c1_FreewayB, c2_FreewayB, c3_FreewayB = c1_FreewayB/len_s, c2_FreewayB/len_s, c3_FreewayB/len_s
 
-
-# Compute pma and pfa
-## Compute the threshold and determine conflicts
+## Compute pma and pfa
 print('Computing thresholds...')
-# parameters_highD = []
-# ctype_list = ['conflict_1', 'conflict_2','conflict_3']
-# prob_sc_list = [prob_sc1_highD, prob_sc2_highD, prob_sc3_highD]
-# smax_c_list = [smax_c1_highD, smax_c2_highD, smax_c3_highD]
-# c_list = [c1_highD, c2_highD, c3_highD]
-# for ctype, prob_sc, smax_c, c in zip(ctype_list, prob_sc_list, smax_c_list, c_list):
-#     parameters = compute_thresholds(roundvs_highD, prob_s_highD, prob_sc, smax_c, c, 'highD')
-#     parameters['ctype'] = ctype
-#     parameters_highD.append(parameters)
-# parameters_highD = pd.concat(parameters_highD).reset_index(drop=True)
-# parameters_highD.to_csv(parent_dir + 'parameters_highD.csv', index=False)
-
 parameters_FreewayB = []
+ctype_list = ['conflict_1', 'conflict_2','conflict_3']
 prob_sc_list = [prob_sc1_FreewayB, prob_sc2_FreewayB, prob_sc3_FreewayB]
 smax_c_list = [smax_c1_FreewayB, smax_c2_FreewayB, smax_c3_FreewayB]
 c_list = [c1_FreewayB, c2_FreewayB, c3_FreewayB]
@@ -181,4 +158,19 @@ for ctype, prob_sc, smax_c, c in zip(ctype_list, prob_sc_list, smax_c_list, c_li
     parameters['ctype'] = ctype
     parameters_FreewayB.append(parameters)
 parameters_FreewayB = pd.concat(parameters_FreewayB).reset_index(drop=True)
-parameters_FreewayB.to_csv(parent_dir + 'parameters_FreewayB.csv', index=False)
+parameters_FreewayB.to_csv(data_path + 'parameters_FreewayB.csv', index=False)
+
+
+# 100Car
+## Load data
+samples_100Car, samples_toinfer_100Car, roundvs_100Car = load_data('100Car')
+
+## Create dictionaries for spacing inference
+print('Inferencing spacing...')
+prob_s_100Car, len_s = spacing_inference_s(samples_toinfer_100Car, roundvs_100Car, '100Car')
+prob_sc_100Car, smax_c_100Car, c_100Car = spacing_inference_sc(samples_toinfer_100Car, roundvs_100Car, '100Car', 'conflict')
+
+## Compute pma and pfa
+print('Computing thresholds...')
+parameters_100Car = compute_thresholds(roundvs_100Car, prob_s_100Car, prob_sc_100Car, smax_c_100Car, c_100Car, '100Car')
+parameters_100Car.to_csv(data_path + 'parameters_100Car.csv', index=False)
