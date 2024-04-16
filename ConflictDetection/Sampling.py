@@ -85,7 +85,7 @@ data_all = []
 ## Determine conflicts
 samples_FreewayB['ttc'] = samples_FreewayB['s']/samples_FreewayB['v']
 print('The percentage of TTCs that are inf: ', np.isinf(samples_FreewayB['ttc']).sum()/len(samples_FreewayB))
-samples_FreewayB = determine_conflicts(samples_FreewayB.copy())
+samples_FreewayB = determine_conflicts(samples_FreewayB)
 samples_FreewayB.to_hdf(data_path + 'samples/samples_FreewayB.h5', key='data')
 
 ## Sample data
@@ -100,15 +100,15 @@ samples[['s','v','round_v','conflict_1','conflict_2','conflict_3']].to_hdf(data_
 ## Load data
 data = pd.read_hdf(data_path + 'outputdata/HundredCar_CFData.h5', key='data')
 samples_100Car = data[(data['s']>0)&(data['v']>0)].copy()
+data = []
 
 ## Conflicts are empirical
-samples_100Car['conflict'] = samples_100Car['conflict'].astype(bool)
 samples_100Car['ttc'] = samples_100Car['s']/samples_100Car['v']
 print('The percentage of TTCs that are inf: ', np.isinf(samples_100Car['ttc']).sum()/len(samples_100Car))
 samples_100Car.to_hdf(data_path + 'samples/samples_100Car.h5', key='data')
 
 ## Sample data
-samples = Grouping(samples_100Car, 800)
+samples = Grouping(samples_100Car, 1000)
 samples = samples.sort_values(by='v').reset_index(drop=True)
 print('--- '+str(len(samples[samples.round_v<=10].round_v.unique()))+' ----')
 samples[['s','v','round_v','conflict']].to_hdf(data_path + 'samples/samples_toinfer_100Car.h5', key='samples')
