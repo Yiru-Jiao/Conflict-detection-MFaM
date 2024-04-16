@@ -10,11 +10,10 @@ import glob
 from tqdm import tqdm
 
 # Define the directory of the project
-# parent_dir = r'U:/Vehicle Coordination Yiru'
-parent_dir = os.path.abspath('../..') 
-path_rawdata = parent_dir + '/OutputData/ThresholdSelection/data/rawdata/'
-path_inputdata = parent_dir + '/OutputData/ThresholdSelection/data/inputdata/'
-path_outputdata = parent_dir + '/OutputData/ThresholdSelection/data/outputdata/'
+parent_dir = os.path.abspath('../..')
+path_rawdata = parent_dir + '/localdata/rawdata/'
+path_inputdata = parent_dir + '/localdata/inputdata/'
+path_outputdata = parent_dir + '/localdata/outputdata/'
 
 
 # Preprocessing
