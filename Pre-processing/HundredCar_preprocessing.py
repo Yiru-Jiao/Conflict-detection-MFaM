@@ -42,17 +42,25 @@ class cf_extractor():
             rearward = merged[~merged['forward'].astype(bool)].groupby('time')['range'].idxmin()
             rearward = merged.loc[rearward][['time','target_id']]
 
-            merged = merged.set_index(['time','target_id'])
+            merged = merged.set_index('target_id')
             # For forward conflicts
-            if ('lead' in self.meta.loc[trip_id]['target']) and (len(forward['target_id'].unique())==1):
-                df = merged.loc[pd.MultiIndex.from_frame(forward)].reset_index()
+            unique_forward = forward['target_id'].unique()
+            unique_rearward = rearward['target_id'].unique()
+            if ('lead' in self.meta.loc[trip_id]['target']) and (len(unique_forward)==1):
+                df = merged.loc[unique_forward[0]].reset_index()
+                if len(df[df['event'].astype(bool)])>10: # focus on the exact moment of conflict
+                    tenth_range = df[df['event'].astype(bool)]['range'].sort_values().iloc[10]
+                    df.loc[df['range']>tenth_range, 'event'] = 0
                 df['frame_id'] = (df['time']*100).astype(int)
                 df['s'] = np.sqrt((df['x_ego']-df['x_sur'])**2 + (df['y_ego']-df['y_sur'])**2)
                 df['v'] = df['speed_ego'] - df['speed_sur']
                 df['speed'] = df['speed_ego']
             # For rearward conflicts
-            elif ('follow' in self.meta.loc[trip_id]['target']) and (len(rearward['target_id'].unique())==1):
-                df = merged.loc[pd.MultiIndex.from_frame(rearward)].reset_index()
+            elif ('follow' in self.meta.loc[trip_id]['target']) and (len(unique_rearward)==1):
+                df = merged.loc[unique_rearward[0]].reset_index()
+                if len(df[df['event'].astype(bool)])>10:
+                    tenth_range = df[df['event'].astype(bool)]['range'].sort_values().iloc[10]
+                    df.loc[df['range']>tenth_range, 'event'] = 0
                 df['frame_id'] = (df['time']*100).astype(int)
                 df['s'] = np.sqrt((df['x_ego']-df['x_sur'])**2 + (df['y_ego']-df['y_sur'])**2)
                 df['v'] = df['speed_sur'] - df['speed_ego']
