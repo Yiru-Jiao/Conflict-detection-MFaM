@@ -76,7 +76,7 @@ def spacing_inference_sc(samples_toinfer, roundvs, loc, conflict_type):
         else:
             kde_sc = stats.gaussian_kde(sample['s'].values)
             prob_sc[roundv] = kde_sc
-            smax_list.append(np.percentile(sample['s'].values, 95))
+            smax_list.append(sample['s'].max())
             c_list.append(len(sample))
 
     idx_empty = np.array(idx_empty)
