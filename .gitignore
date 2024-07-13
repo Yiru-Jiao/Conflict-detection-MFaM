@@ -1,1 +1,3 @@
-localdata
+**/*.h5
+**/*.csv
+!localdata/inputdata/100Car/*

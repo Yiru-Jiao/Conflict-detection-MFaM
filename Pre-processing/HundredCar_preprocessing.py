@@ -7,8 +7,7 @@ import pandas as pd
 from tqdm import tqdm
 
 path_output = './localdata/outputdata/'
-path_processed = '../../Process_100Car/ProcessedData/'
-path_cleaned = '../../Process_100Car/CleanedData/'
+path_input = './localdata/inputdata/100Car/'
 
 
 class cf_extractor():
@@ -78,10 +77,10 @@ class cf_extractor():
 print('Loading data...')
 cfdata = []
 for conflict_type in ['Crash', 'NearCrash']:
-    data_ego = pd.read_hdf(path_processed + 'HundredCar_'+conflict_type+'_Ego.h5', key='data')
-    data_sur = pd.read_hdf(path_processed + 'HundredCar_'+conflict_type+'_Surrounding.h5', key='data')
+    data_ego = pd.read_hdf(path_input + 'HundredCar_'+conflict_type+'_Ego.h5', key='data')
+    data_sur = pd.read_hdf(path_input + 'HundredCar_'+conflict_type+'_Surrounding.h5', key='data')
     data_sur = data_sur.drop(columns=['x','y'])
-    meta = pd.read_csv(path_cleaned + 'HundredCar_metadata_'+conflict_type+'Event.csv').set_index('webfileid')
+    meta = pd.read_csv(path_input + 'HundredCar_metadata_'+conflict_type+'Event.csv').set_index('webfileid')
     meta = meta.loc[(data_ego['trip_id'].unique())]
 
     counted_target = ['lead vehicle','following vehicle']

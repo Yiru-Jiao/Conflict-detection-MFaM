@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 # Define the directory of the project
 path_rawdata = './localdata/rawdata/'
-path_inputdata = './localdata/inputdata/'
+path_inputdata = './localdata/inputdata/FreewayB/'
 path_outputdata = './localdata/outputdata/'
 
 
