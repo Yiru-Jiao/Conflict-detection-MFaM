@@ -1,5 +1,5 @@
 # Code for "Minimising missed and false alarms: a vehicle spacing based approach to conflict detection"
-This study is presented at the 2024 IEEE Intelligent Vehicles Symposium (IV). 
+This study is presented at the 2024 IEEE Intelligent Vehicles Symposium (IV) and accessible at <https://doi.org/10.1109/IV55156.2024.10588396>.
 
 ## Abstract
 Safety is the cornerstone of L2+ autonomous driving and one of the fundamental tasks is forward collision warning that detects potential rear-end collisions. Potential collisions are also known as conflicts, which have long been indicated using Time-to-Collision with a critical threshold to distinguish safe and unsafe situations. Such indication, however, focuses on a single scenario and cannot cope with dynamic traffic environments. For example, TTC-based crash warning frequently misses potential collisions in congested traffic, and issues false alarms during lane-changing or parking. Aiming to minimise missed and false alarms in conflict detection, this study proposes a more reliable approach based on vehicle spacing patterns. To test this approach, we use both synthetic and real-world conflict data. Our experiments show that the proposed approach outperforms single-threshold TTC unless conflicts happened in the exact way that TTC is defined, which is rarely true. When conflicts are heterogeneous and when the information of conflict situation is incompletely known, as is the case with real-world conflicts, our approach can achieve less missed and false detection. This study offers a new perspective for conflict detection, and also a general framework allowing for further elaboration to minimise missed and false alarms. Less missed alarms will contribute to fewer accidents, meanwhile, fewer false alarms will promote people's trust in collision avoidance systems. We thus expect this study to contribute to safer and more trustworthy autonomous driving.
@@ -25,4 +25,15 @@ Safety is the cornerstone of L2+ autonomous driving and one of the fundamental t
     - Step 3.1 Use `./ResultsVisualisation/IEEE IV.ipynb` to give results and visualise them for method validation.
 
 ## Citation
-
+````latex
+@inproceedings{Jiao2024,
+  title = {Minimising Missed and False Alarms: A Vehicle Spacing based Approach to Conflict Detection},
+  doi = {10.1109/iv55156.2024.10588396},
+  booktitle = {2024 IEEE Intelligent Vehicles Symposium (IV)},
+  pages={1982-1987},
+  author = {Jiao,  Yiru and Calvert,  Simeon C. and van Lint,  Hans},
+  year = {2024},
+  month = jun,
+  address = {Jeju Island, Republic of Korea}
+}
+````
