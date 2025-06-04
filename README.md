@@ -13,7 +13,7 @@ This study is presented at the 2024 IEEE Intelligent Vehicles Symposium (IV) and
 `jupyter notebook`, `numpy`, `pandas`, `pytables`, `tqdm`, `glob`, `matplotlib`, `scipy`
 
 ### Data
-- **Raw data** 
+- **Raw data**  
   Apply for the dataset [CitySim](https://github.com/UCF-SST-Lab/UCF-SST-CitySim1-Dataset), download and put the subset of `FreewayB` in the folder `./localdata/rawdata`.
 - **Test data**  
   We have processed and saved the 100Car NDS data in the folder `./localdata/inputdata/`. The readers are still encouraged to explore the raw data with the code in the [repository](https://github.com/Yiru-Jiao/Reconstruct100CarNDSData) if interested.
