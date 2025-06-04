@@ -1,3 +1,4 @@
 **/*.h5
 **/*.csv
+localdata.zip
 !localdata/inputdata/100Car/*
