@@ -1,8 +1,8 @@
-# Resulting dataset readme
+# Resulting dataset README
 
 This dataset deposited at https://doi.org/10.4121/252a79e7-d9ff-4181-a9e4-842ea7845a77 contains the processed and analysed outputs. The dataset is organised into several subfolders containing preprocessed files, sampling outputs, spacing parameters, and additional supporting files for conflict detection experiments.
 
-## Data Organization
+## Data Organisation
 - `./localdata/rawdata/`
   Empty folder, intended to store raw data that are sourced from the CitySim dataset.  
 - `./localdata/inputdata/`  
@@ -26,7 +26,7 @@ This dataset deposited at https://doi.org/10.4121/252a79e7-d9ff-4181-a9e4-842ea7
 - **v**: Relative speed (m/s) calculated as the difference between speeds of vehicles.
 - **speed**: Speed of the ego vehicle.
 - **event/conflict**: Boolean flag indicating if a conflict is observed (different naming conventions are used in various stages).
-- **round_v**: A quantized form of vehicle speed used for grouping data in inference routines.
+- **round_v**: A discrete form of vehicle speed used for grouping data in inference routines.
 - **ttc**: Time-to-collision, calculated as spacing divided by relative speed.
 - **precedingId**: Identifier for the vehicle in front (used in filtering for lane consistency).
   
